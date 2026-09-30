@@ -296,11 +296,12 @@
                 <h3 style="font-size: 1rem; color: #555;">(Puedes ampliar la foto para recordar el contexto)</h3>
 
                 <button class="quiz-btn" onclick="checkQuiz(false)">A) "Me imagino comprando un rebaño de ovejas y retirándonos a las Highlands..."</button>
-                <button class="quiz-btn" onclick="checkQuiz(false)">B) "Me imagino que algún día aprenderás a cocinar sin quemar la cocina..."</button>
-                <button class="quiz-btn" onclick="checkQuiz(true)">C) "Me imagino compartiendo una vida juntos. Despertándome contigo cada día y formando una familia, construyendo un hogar al que siempre le apetezca volver y eligiéndonos incluso en lo más cotidiano."</button>
+                <button class="quiz-btn" onclick="checkQuiz(false)">B) "Me imagino una vida separados. Menos mal, que alivio..."</button>
+                <button class="quiz-btn" onclick="checkQuiz(true)">C) "Me imagino compartiendo una vida juntos. Despertándome contigo cada día y formando una familia, construyendo un hogar al que siempre apetezca volver y eligiéndonos incluso en lo más cotidiano."</button>
                 
                 <div id="quiz-error" class="error-msg" style="font-size: 1.5rem;">MEEEC ERROR ❌</div>
                 <div class="hidden-joke">(Por si te pensabas que lo había perdido de verdad jejej)</div>
+                <button onclick="nextScreen()">Siguiente</button>
             </div>
         </div>
     </section>
@@ -393,7 +394,7 @@
             }
 
             // Temporizaciones condicionales
-            let delay = (mode === 'cities') ? 5500 : 0; 
+            let delay = (mode === 'cities') ? 7000 : 0; 
             let interval = (mode === 'triad') ? 2000 : (mode === 'cities') ? 1400 : 0;
             
             let posIndex = 0;
