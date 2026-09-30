@@ -289,20 +289,26 @@
     </section>
 
     <section id="screen-10" class="screen">
-        <div class="content-box" style="display: flex; flex-direction: row; gap: 30px; align-items: center; max-width: 900px;">
-            <img src="foto25.jpg" alt="Carta escrita a mano" style="height: 350px; border-radius: 4px; box-shadow: 0 4px 10px rgba(0,0,0,0.2);">
-            <div style="flex: 1; position: relative;">
-                <h3>Elige la opción que más te encaje para rellenar el hueco: </h3>
-                <h3 style="font-size: 1rem; color: #555;">(Puedes ampliar la foto para recordar el contexto)</h3>
+        <div style="flex: 1; position: relative;">
+                <!-- Bloque del test -->
+                <div id="quiz-options">
+                    <h3>Elige la opción que más te encaje para rellenar el hueco: </h3>
+                    <h3 style="font-size: 1rem; color: #555;">(Puedes ampliar la foto para recordar el contexto)</h3>
 
-                <button class="quiz-btn" onclick="checkQuiz(false)">A) "Me imagino comprando un rebaño de ovejas y retirándonos a las Highlands..."</button>
-                <button class="quiz-btn" onclick="checkQuiz(false)">B) "Me imagino una vida separados. Menos mal, que alivio..."</button>
-                <button class="quiz-btn" onclick="checkQuiz(true)">C) "Me imagino compartiendo una vida juntos. Despertándome contigo cada día y formando una familia, construyendo un hogar al que siempre apetezca volver y eligiéndonos incluso en lo más cotidiano."</button>
-                
-                <div id="quiz-error" class="error-msg" style="font-size: 1.5rem;">MEEEC ERROR ❌</div>
-                <div class="hidden-joke">(Por si te pensabas que lo había perdido de verdad jejej)</div>
-                <button onclick="nextScreen()">Siguiente</button>
-            </div>
+                    <button class="quiz-btn" onclick="checkQuiz(false)">A) "Me imagino comprando un rebaño de ovejas y retirándonos a las Highlands..."</button>
+                    <button class="quiz-btn" onclick="checkQuiz(false)">B) "Me imagino una vida separados. Menos mal, que alivio..."</button>
+                    <button class="quiz-btn" onclick="checkQuiz(true)">C) "Me imagino compartiendo una vida juntos. Despertándome contigo cada día y formando una familia, construyendo un hogar al que siempre apetezca volver y eligiéndonos incluso en lo más cotidiano."</button>
+                    
+                    <div id="quiz-error" class="error-msg" style="font-size: 1.5rem;">MEEEC ERROR ❌</div>
+                    <div class="hidden-joke">(Por si te pensabas que lo había perdido de verdad jejej)</div>
+                </div>
+
+                <!-- Bloque de éxito oculto -->
+                <div id="quiz-success" style="display: none; text-align: center;">
+                    <h2 style="color: var(--accent); font-size: 2.5rem; margin-bottom: 10px;">¡Enhorabuena! 🎉</h2>
+                    <p class="poem-text" style="font-size: 1.4rem; margin-bottom: 30px;">Se nota que lo has escrito tú equisde</p>
+                    <button onclick="nextScreen()">Siguiente</button>
+                </div>
         </div>
     </section>
 
@@ -355,7 +361,8 @@
         function checkQuiz(isCorrect) {
             if (isCorrect) {
                 document.getElementById('quiz-error').style.display = 'none';
-                nextScreen();
+                document.getElementById('quiz-options').style.display = 'none';
+                document.getElementById('quiz-success').style.display = 'block';
             } else {
                 document.getElementById('quiz-error').style.display = 'block';
             }
