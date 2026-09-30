@@ -250,7 +250,7 @@
             <p class="poem-text">
                 <span class="sync-text">Comernos la vida,</span><br>
                 <span class="sync-text">bebernos el miedo...</span><br>
-                <span class="sync-text">LO QUE HEMOS VIVIDO</span>
+                <span class="sync-text">¡¡LO QUE HEMOS VIVIDO!!</span>
             </p>
             <button onclick="nextScreen()" class="sync-btn">Siguiente</button>
         </div>
@@ -289,7 +289,12 @@
     </section>
 
     <section id="screen-10" class="screen">
-        <div style="flex: 1; position: relative;">
+        <div class="content-box" style="display: flex; flex-direction: row; gap: 30px; align-items: center; max-width: 900px;">
+            
+            <!-- Fotografía aislada para que no desaparezca -->
+            <img src="foto25.jpg" alt="Carta escrita a mano" style="height: 350px; border-radius: 4px; box-shadow: 0 4px 10px rgba(0,0,0,0.2);">
+            
+            <div style="flex: 1; position: relative;">
                 <!-- Bloque del test -->
                 <div id="quiz-options">
                     <h3>Elige la opción que más te encaje para rellenar el hueco: </h3>
@@ -306,9 +311,10 @@
                 <!-- Bloque de éxito oculto -->
                 <div id="quiz-success" style="display: none; text-align: center;">
                     <h2 style="color: var(--accent); font-size: 2.5rem; margin-bottom: 10px;">¡Enhorabuena! 🎉</h2>
-                    <p class="poem-text" style="font-size: 1.4rem; margin-bottom: 30px;">Se nota que lo has escrito tú equisde</p>
+                    <p class="poem-text" style="font-size: 1.4rem; margin-bottom: 30px;">Se nota que lo has escrito tú :) </p>
                     <button onclick="nextScreen()">Siguiente</button>
                 </div>
+            </div>
         </div>
     </section>
 
