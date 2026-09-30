@@ -65,7 +65,7 @@
 
         .scattered-photo {
             position: absolute;
-            width: clamp(150px, 20vw, 300px);
+            width: clamp(140px, 18vw, 250px); /* Tamaño ajustado para evitar solapamientos */
             border: 8px solid white;
             box-shadow: 0 10px 20px rgba(0,0,0,0.15);
             transition: all 0.5s ease;
@@ -74,10 +74,10 @@
 
         .content-box {
             background: rgba(255, 255, 255, 0.93);
-            padding: 40px;
+            padding: 30px; /* Padding reducido */
             border-radius: 4px;
             box-shadow: 0 4px 30px rgba(0,0,0,0.05);
-            max-width: 800px;
+            max-width: 550px; /* Ancho reducido para liberar espacio a las fotos */
             z-index: 20;
             backdrop-filter: blur(5px);
         }
@@ -88,9 +88,9 @@
         }
 
         .poem-text {
-            font-size: clamp(1.5rem, 3vw, 2.5rem);
+            font-size: clamp(1.4rem, 2.5vw, 2.2rem);
             line-height: 1.6;
-            margin-bottom: 30px;
+            margin-bottom: 25px;
         }
 
         button {
@@ -102,7 +102,7 @@
             font-family: 'Roboto', sans-serif;
             cursor: pointer;
             border-radius: 2px;
-            margin-top: 20px;
+            margin-top: 15px;
             transition: background 0.3s, transform 0.2s;
         }
 
@@ -227,7 +227,7 @@
 
     <section id="screen-8" class="screen">
         <div class="content-box">
-            <p class="poem-text" style="font-size: 1.3rem;">Como ya sabes este año nos deparan nuevos destinos, pero a veces conviene recordar todos aquellos sitios por donde ya hemos pasado.<br><br>
+            <p class="poem-text" style="font-size: 1.25rem;">Como ya sabes este año nos deparan nuevos destinos, pero a veces conviene recordar todos aquellos sitios por donde ya hemos pasado.<br><br>
             <strong>Madrid, Valladolid, Santander, Valencia, Barcelona, Galicia, Menorca, Roma, Polignano Amare…</strong></p>
             <button onclick="nextScreen()">Siguiente</button>
         </div>
@@ -242,13 +242,13 @@
 
     <section id="screen-10" class="screen">
         <div class="content-box">
-            <p class="poem-text" style="font-size: 1.4rem;">Pero antes de seguir, con esto de Escocia he recordado uno de los ejercicios de inglés que me estoy preparando para el examen, el famoso <em>Fill the gaps</em>.<br><br>Así que vamos a probar un juego…</p>
+            <p class="poem-text" style="font-size: 1.3rem;">Pero antes de seguir, con esto de Escocia he recordado uno de los ejercicios de inglés que me estoy preparando para el examen, el famoso <em>Fill the gaps</em>.<br><br>Así que vamos a probar un juego…</p>
             <button onclick="nextScreen()">Siguiente</button>
         </div>
     </section>
 
     <section id="screen-11" class="screen">
-        <div class="content-box" style="display: flex; flex-direction: row; gap: 30px; align-items: center; max-width: 1000px;">
+        <div class="content-box" style="display: flex; flex-direction: row; gap: 30px; align-items: center; max-width: 950px;">
             <img src="foto25.jpg" alt="Carta escrita a mano" style="height: 400px; border-radius: 4px; box-shadow: 0 4px 10px rgba(0,0,0,0.2);">
             <div style="flex: 1; position: relative;">
                 <h3>Elige la opción que más te encaje para rellenar el hueco: </h3>
@@ -281,14 +281,15 @@
             currentScreen++;
             document.getElementById(`screen-${currentScreen}`).classList.add('active');
             
+            // Nueva lógica de segmentación (no se acumulan, se renuevan en cada pantalla)
             switch(currentScreen) {
                 case 3: renderPhotos(1, 3); break;
-                case 4: renderPhotos(1, 6); break;
-                case 5: renderPhotos(1, 9); break;
-                case 6: renderPhotos(1, 12); break;
-                case 7: renderPhotos(1, 15); break;
-                case 8: renderPhotos(16, 24); break; 
-                case 9: 
+                case 4: renderPhotos(4, 6); break;
+                case 5: renderPhotos(7, 9); break;
+                case 6: renderPhotos(10, 12); break;
+                case 7: renderPhotos(13, 15); break;
+                case 8: renderPhotos(16, 20); break; // Ciudades parte 1
+                case 9: renderPhotos(21, 24); break; // Ciudades parte 2
                 case 10:
                 case 11:
                     document.getElementById('photo-background').innerHTML = ''; 
@@ -324,33 +325,35 @@
             const bg = document.getElementById('photo-background');
             bg.innerHTML = ''; 
             
+            // 6 Zonas seguras perimetrales estructuradas en vw/vh (evitan el centro al 100%)
+            const safeZones = [
+                { xMin: 3, xMax: 12, yMin: 5, yMax: 20 },   // Superior Izquierda
+                { xMin: 68, xMax: 78, yMin: 5, yMax: 20 },  // Superior Derecha
+                { xMin: 3, xMax: 12, yMin: 55, yMax: 65 },  // Inferior Izquierda
+                { xMin: 68, xMax: 78, yMin: 55, yMax: 65 }, // Inferior Derecha
+                { xMin: 35, xMax: 45, yMin: 2, yMax: 8 },   // Centro Arriba
+                { xMin: 35, xMax: 45, yMin: 70, yMax: 75 }  // Centro Abajo
+            ];
+            
+            // Desordenar las zonas para que la distribución parezca natural
+            const shuffledZones = safeZones.sort(() => 0.5 - Math.random());
+            
+            let zoneIndex = 0;
             for (let i = startIdx; i <= endIdx; i++) {
                 const img = document.createElement('img');
                 img.src = `foto${i}.jpg`;
                 img.className = 'scattered-photo';
                 
-                // Algoritmo perimetral para evitar que las fotos queden tras el recuadro de texto
-                let randomX, randomY;
-                const border = Math.floor(Math.random() * 4); // 0: Top, 1: Right, 2: Bottom, 3: Left
+                // Asignar una zona segura exclusiva a cada foto
+                const zone = shuffledZones[zoneIndex % shuffledZones.length];
+                zoneIndex++;
                 
-                if (border === 0) {
-                    randomX = Math.floor(Math.random() * 80);
-                    randomY = Math.floor(Math.random() * 15);
-                } else if (border === 1) {
-                    randomX = Math.floor(Math.random() * 15) + 70;
-                    randomY = Math.floor(Math.random() * 80);
-                } else if (border === 2) {
-                    randomX = Math.floor(Math.random() * 80);
-                    randomY = Math.floor(Math.random() * 15) + 70;
-                } else {
-                    randomX = Math.floor(Math.random() * 15);
-                    randomY = Math.floor(Math.random() * 80);
-                }
+                const randomX = Math.floor(Math.random() * (zone.xMax - zone.xMin + 1)) + zone.xMin;
+                const randomY = Math.floor(Math.random() * (zone.yMax - zone.yMin + 1)) + zone.yMin;
+                const randomRot = Math.floor(Math.random() * 40) - 20; 
                 
-                const randomRot = Math.floor(Math.random() * 50) - 25; 
-                
-                img.style.left = `${randomX}%`;
-                img.style.top = `${randomY}%`;
+                img.style.left = `${randomX}vw`;
+                img.style.top = `${randomY}vh`;
                 img.style.transform = `rotate(${randomRot}deg)`;
                 
                 bg.appendChild(img);
